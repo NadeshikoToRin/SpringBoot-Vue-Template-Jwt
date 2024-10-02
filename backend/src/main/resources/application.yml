@@ -1,0 +1,5 @@
+spring:
+  security:
+    jwt:
+      key: nadeshiko
+      expire: 7
