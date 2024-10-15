@@ -91,10 +91,11 @@ public class SecurityConfiguration {
         User user = (User) authentication.getPrincipal();
         Account account = accountService.findAccountByNameOrEmail(user.getUsername());
         String token = utils.createJwt(user, account.getId(), account.getUsername());
-        AuthorizeVO vo = new AuthorizeVO();
-        BeanUtils.copyProperties(account, vo);
-        vo.setExpire(utils.expireTime());
-        vo.setToken(token);
+        AuthorizeVO vo = account.asViewObject(AuthorizeVO.class,v ->{
+            v.setExpire(utils.expireTime());
+            v.setToken(token);
+        });
+//        BeanUtils.copyProperties(account, vo);
         response.getWriter().write(RestBean.success(vo).asJsonString());
 
     }
