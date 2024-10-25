@@ -24,7 +24,9 @@ const validatePassword = (rule, value, callback) => {
 function userLogin(){
   formRef.value.validate(valid => {
     if (valid){
-      login(form.username,form.password,form.remember,()=>{})
+      login(form.username,form.password,form.remember,()=>{
+        router.push('/index')
+      })
     }
   })
 }

@@ -35,7 +35,14 @@ function deleteAccessToken(){
     localStorage.removeItem(authItemName)
     sessionStorage.removeItem(authItemName)
 }
-function post(url, data,header ,success, failure = defaultFailure, error = defaultError) {
+function accessHeader(){
+    const token = takeAccessToken()
+    return token ?{
+
+        'Authorization': `Bearer ${token}`
+    } : {}
+}
+function internalPost(url, data, header , success, failure = defaultFailure, error = defaultError) {
     axios.post(url, data, {
         headers:header
     }).then(({data}) => {
@@ -46,7 +53,7 @@ function post(url, data,header ,success, failure = defaultFailure, error = defau
     }).catch(err => error(err))
 }
 
-function get(url,header ,success, failure = defaultFailure, error = defaultError) {
+function internalGet(url, header , success, failure = defaultFailure, error = defaultError) {
     axios.get(url, {
         headers:header
     }).then(({data}) => {
@@ -56,9 +63,14 @@ function get(url,header ,success, failure = defaultFailure, error = defaultError
             failure(data.message,data.code,url)
     }).catch(err => error(err))
 }
-
+function get(url,success,failure = defaultFailure){
+    internalGet(url,accessHeader(),success,failure)
+}
+function post(url,data,success,failure = defaultFailure){
+    internalPost(url,data,accessHeader(),success,failure)
+}
 function login(username,password,remember,success,failure = defaultFailure){
-    post('api/auth/login',{
+    internalPost('api/auth/login',{
         username:username,
         password:password,
         // remember:remember
@@ -70,5 +82,15 @@ function login(username,password,remember,success,failure = defaultFailure){
         success(data)
     },failure)
 }
+function logout(success,failure = defaultFailure){
+    get('api/auth/logout',()=>{
+        deleteAccessToken()
+        ElMessage.success('退出登录成功')
+        success()
+    },failure)
 
-export {login}
+}
+function unauthorized(){
+    return !takeAccessToken()
+}
+export {login,logout,get,post,unauthorized}

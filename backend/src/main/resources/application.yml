@@ -3,13 +3,32 @@ spring:
     jwt:
       key: nadeshiko
       expire: 7
+    filter:
+      order: -100
+
   datasource:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jwt_db
 
-#  devtools:
-#    restart:
-#      enabled: true
-#      exclude: application.yml, static/**,public/**
+  mail:
+    host: smtp.qq.com
+    username: 167730646@qq.com
+    password: qfbonogxvbckbjhc
+    port: 465
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+          socketFactory.port: 465
+          ssl.enable: true
+          debug: true
+  rabbitmq:
+    addresses: localhost
+    username: admin
+    password: admin
+    virtual-host: /
