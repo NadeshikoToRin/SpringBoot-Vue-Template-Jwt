@@ -26,14 +26,12 @@ public class MailQueueListener {
         String type = (String) data.get("type");
         SimpleMailMessage message = switch(type){
             case "register" -> creatMessage("欢迎注册我们的网站",
-                    "零点邮件注册校验码为："+code+"\n验证码5分钟内有效，请勿泄露给其他人。",email);
+                    "零点邮件注册校验码为："+code+"\n验证码3分钟内有效，请勿泄露给其他人。",email);
             case "reset" -> creatMessage("重置密码验证码",
                     "您正在进行重置密码操作，验证码："+code+"\n验证码3分钟内有效，请勿泄露给其他人。",email);
-            default -> throw new RuntimeException("未知类型");
+            default -> null;
         };
-        if (message == null){
-            return;
-        }
+        if(message==null) return;
         sender.send(message);
     }
 

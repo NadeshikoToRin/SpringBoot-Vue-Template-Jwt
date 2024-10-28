@@ -3,7 +3,7 @@ import {Lock, User} from "@element-plus/icons-vue";
 import {reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
 import router from "@/router/index.js";
-import WelcomeFooter from "@/views/welcome/WelcomeFooter.vue";
+import WelcomeFooter from "@/components/WelcomeFooter.vue";
 import {login} from "@/net/index.js";
 
 const form =reactive({
@@ -100,7 +100,9 @@ const rules = {
     <div>
       <el-button style="width: 270px" @click="router.push('/register')" type="warning" plain>注册账号</el-button>
     </div>
-    <WelcomeFooter/>
+    <div style="padding-top: 102px">
+      <WelcomeFooter/>
+    </div>
   </div>
 </template>
 

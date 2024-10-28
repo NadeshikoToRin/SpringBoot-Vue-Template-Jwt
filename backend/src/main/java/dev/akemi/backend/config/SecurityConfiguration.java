@@ -10,9 +10,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import lombok.val;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -44,7 +41,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(conf -> conf
-                        .requestMatchers("api/auth/**").permitAll()
+                        .requestMatchers("api/auth/**","/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
